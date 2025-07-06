@@ -15,6 +15,7 @@
       <label for="topic">topico</label>
       <input name="topic" type="text" v-model="topic">
       <button type="button" @click="suscribeTopic">Suscribirse</button>
+      <p v-if="res">Suscrito con éxitoo</p>
     </div>
   </div>
 </template>
@@ -24,6 +25,7 @@
   const { getTokenNotification, suscribeToTopic } = useFirebaseMessaging()
   const token = ref('')
   const topic = ref('')
+  const res = ref(null)
   const getTokenFirebase = async() => {
     const res = await getTokenNotification();
     token.value = res;
@@ -31,6 +33,7 @@
   const suscribeTopic = async() => {
     const res = await suscribeToTopic(topic.value, token.value);
     console.log(res);
+    res.value = res
   }
 </script>
 
