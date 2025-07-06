@@ -55,6 +55,8 @@
     // res.value = res
   }
   onMounted(() => {
+    const topics = localStorage.getItem('topicList');
+    if(topics) topicList.value = JSON.parse(topics)
     getTokenFirebase()
   })
 </script>
