@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'max-w-sm mx-auto p-6 rounded-2xl shadow-lg text-white',
+      'w-full mx-auto p-6 rounded-2xl shadow-lg text-white',
       gradientClass
     ]">
     <h2 class="text-lg font-bold mb-4 text-center">{{ title }}</h2>
