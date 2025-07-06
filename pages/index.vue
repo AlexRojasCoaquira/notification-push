@@ -14,12 +14,12 @@
         <Card title="Conciertos" @suscribe="suscribeTopic('Conciertos')" :isSuscribe="topicList.includes('Conciertos')" />
         <Card title="Entretenimiento" @suscribe="suscribeTopic('Entretenimiento')" :isSuscribe="topicList.includes('Entretenimiento')" />
       </div>
-      <p>
+      <!-- <p>
         Mi token: {{ token }}
       </p>
       <button type="button" @click="getTokenFirebase">
         Obtener token
-      </button>
+      </button> -->
       <div class="" v-if="token">
         <!-- <p>PASO 2</p>
         <label for="topic">topico</label>
