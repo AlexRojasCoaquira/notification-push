@@ -6,10 +6,12 @@ interface Notification {
   title: string;
   body: string;
   image?: string;
+  topic: string
 }
 
 export function useFirebaseMessaging() {
-
+  const nuxtApp = useNuxtApp();
+  const $messaging = nuxtApp.$messaging as Messaging | null
   //   const pushExample = async (): Promise<string> => {
   //   const nuxtApp = useNuxtApp();
   //   const $messaging = nuxtApp.$messaging as Messaging | null
@@ -50,8 +52,6 @@ export function useFirebaseMessaging() {
   //   return token;
   // };
   const getTokenNotification = async (): Promise<string> => {
-    const nuxtApp = useNuxtApp();
-    const $messaging = nuxtApp.$messaging as Messaging | null
 
     const vapidKey = "BGKjMcyZmCL5C7PD3lVS5sjhDdjwHi5VNZFfBlIqmPXT2ylLswTaIHNlYhxq61rFnKIGmHw2VwdpaVGE0YReZzE";
     if (!$messaging) throw new Error("Firebase Messaging no está disponible.");
@@ -72,30 +72,29 @@ export function useFirebaseMessaging() {
     return token;
   };
 
-  // const sendPushNotification = async(payload) => {
-  //   try {
-  //     console.log('payload', payload)
-  //     const url = `https://notification-api-production-1ded.up.railway.app/send-notification`;
-  //     const res = await axios.post(url, {
-  //       topic: 'miTopic',
-  //       notification: {
-  //         title: 'Título',
-  //         body: 'Mensaje'
-  //       },
-  //       webpush: {
-  //         fcm_options: { link: 'https://tu-sitio.com' },
-  //         headers: { Urgency: 'high' }
-  //       }
-  //     });
-  //     console.log("✅ Notificación enviada:", res.data)
-  //   } catch (err) {
-  //     console.error("❌ Error al enviar notificación:", err)
-  //   }
-  // };
-
-  const suscribeToTopic = async (topic: string, token: string) => {
+  const sendPushNotification = async(payload: Notification) => {
     try {
-      const url = `https://notification-api-production-1ded.up.railway.app/suscribe`;
+      console.log('payload', payload)
+      const { topic, title, body, image } = payload;
+      const data = {
+        topic,
+        data: {
+          title,
+          body,
+          image,
+        }
+      }
+      const url = `https://notification-api-production-1ded.up.railway.app/send-topic`;
+      const res = await axios.post(url, data);
+      console.log("✅ Notificación enviada:", res.data)
+    } catch (err) {
+      console.error("❌ Error al enviar notificación:", err)
+    }
+  };
+
+  const suscribeToTopic = async (topic: string, token: string, unsuscribe = '1') => {
+    try {
+      const url = `https://notification-api-production-1ded.up.railway.app/suscribe?${unsuscribe}`;
       const payload = {
         topic,
         token
@@ -110,7 +109,7 @@ export function useFirebaseMessaging() {
 
   return {
     getTokenNotification,
-    // sendPushNotification,
+    sendPushNotification,
     suscribeToTopic,
     // pushExample,
   }

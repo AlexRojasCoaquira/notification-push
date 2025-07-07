@@ -4,6 +4,7 @@
       <h1 class="text-2xl font-bold">
         SUSCRIPCIONES
       </h1>
+      <p v-if="msg" class="text-xl text-emerald-700 font-bold">{{msg}}-{{ topicSelected }}</p>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 my-5">
         <Card title="Noticias" @suscribe="suscribeTopic('Noticias')" :isSuscribe="topicList.includes('Noticias')" />
         <Card title="Deportes" @suscribe="suscribeTopic('Deportes')" :isSuscribe="topicList.includes('Deportes')"/>
@@ -20,13 +21,6 @@
       <button type="button" @click="getTokenFirebase">
         Obtener token
       </button> -->
-      <div class="" v-if="token">
-        <!-- <p>PASO 2</p>
-        <label for="topic">topico</label>
-        <input name="topic" type="text" v-model="topic"> -->
-        <button type="button" @click="suscribeTopic">Suscribirse</button>
-        <p v-if="msg">{{msg}}</p>
-      </div>
     </div>
   </div>
 </template>
@@ -35,7 +29,7 @@
   import { useFirebaseMessaging } from '@/composables/usePushNotifications'
   const { getTokenNotification, suscribeToTopic } = useFirebaseMessaging()
   const token = ref('')
-  const topic = ref('')
+  const topicSelected = ref('')
   const topicList = ref<string[]>([])
   const msg = ref('')
   const getTokenFirebase = async() => {
@@ -44,12 +38,26 @@
   }
   const suscribeTopic = async(topic: string) => {
     console.log('topic', topic)
-    if(topicList.value.includes(topic) || !token.value) return;
-    const res = await suscribeToTopic(topic, token.value);
+    let subscribe = '1';
+    if(!token.value) return;
+    topicSelected.value = topic;
+    if(topicList.value.includes(topic)) subscribe = '0'
+
+    const res = await suscribeToTopic(topic, token.value, subscribe);
     if(res) {
-      topicList.value.push(topic)
+      if(subscribe === '0') {
+        const topicListNew = topicList.value.filter((t:string) => t !== topic)
+        console.log('topicListNew', topicListNew);
+        localStorage.setItem('topicList', JSON.stringify(topicListNew))
+        topicList.value = topicListNew
+      } else {
+        topicList.value.push(topic)
+      }
       localStorage.setItem('topicList', JSON.stringify(topicList.value))
-      msg.value = 'Se ha suscrito con éxito'
+      msg.value = subscribe === '1'? 'Se ha suscrito con éxito' : 'Se ha cancelado la suscripción'
+      setTimeout(() => {
+        msg.value=''
+      }, 5000);
     }
     // console.log(res);
     // res.value = res
