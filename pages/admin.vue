@@ -139,9 +139,6 @@
       console.log('res', error);
     }
   }
-  onMounted(() => { //llamarlo en la raíz de preferencia
-    listenForMessages()
-  })
 </script>
 
 <style>

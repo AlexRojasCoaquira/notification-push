@@ -62,6 +62,7 @@ export function useFirebaseMessaging() {
       const image = payload.notification?.image || payload.data?.image || "";
       const reg = await navigator.serviceWorker.getRegistration();
       if (!reg) throw new Error('Service Worker no registrado')
+      console.log('MENSAJES EN PRIMER PLANO')
       reg.showNotification(title, {
         body,
         icon: image,
