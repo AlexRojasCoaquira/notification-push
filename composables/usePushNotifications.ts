@@ -94,7 +94,7 @@ export function useFirebaseMessaging() {
 
   const suscribeToTopic = async (topic: string, token: string, unsuscribe = '1') => {
     try {
-      const url = `https://notification-api-production-1ded.up.railway.app/suscribe?${unsuscribe}`;
+      const url = `https://notification-api-production-1ded.up.railway.app/suscribe?suscribe=${unsuscribe}`;
       const payload = {
         topic,
         token

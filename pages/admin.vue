@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-bold">
         ADMINISTRADOR
       </h1>
-      <div class="grid grid-cols-2 gap-4 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
         <div class="">
           <form @submit.prevent="sendNotificacion" class="w-full">
             <div class="block">
@@ -51,12 +51,9 @@
               <img :src="form.image" class="object-fit mt-3 w-24" alt="">
             </div>
             <button type="submit" class="w-40 rounded-2xl text-white text-xl bg-amber-600 px-3 py-2 mt-5">Enviar</button>
-          </form>
-          <div class="">
             <button type="button" class="ml-2 w-40 rounded-2xl text-white text-xl bg-green-600 px-3 py-2 mt-5" @click="autocomplete">Autocompletar</button>
             <button type="button" class="ml-2 w-40 rounded-2xl text-white text-xl bg-blue-600 px-3 py-2 mt-5" @click="cleanForm">Limpiar</button>
-          </div>
-
+          </form>
         </div>
         <div class="w-full border border-gray-900">
         </div>
