@@ -8,8 +8,8 @@ export default defineNuxtConfig({
     head: {
       link: [
         { rel: 'manifest', href: '/manifest.json' },
-        { rel: 'icon', type: 'image/png', href: '/icons/crear.png' },
-        { rel: 'apple-touch-icon', href: '/icons/crear.png' }
+        { rel: 'icon', type: 'image/png', href: 'https://cdn-projects-build.joinnus.com/jweb-public-front/production/2500/static/favicons/apple-touch-icon.png' },
+        { rel: 'apple-touch-icon', href: 'https://cdn-projects-build.joinnus.com/jweb-public-front/production/2500/static/favicons/apple-touch-icon.png' }
       ]
     }
   },

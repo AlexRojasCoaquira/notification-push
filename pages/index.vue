@@ -15,9 +15,12 @@
         <Card title="Conciertos" @suscribe="suscribeTopic('Conciertos')" :isSuscribe="topicList.includes('Conciertos')" />
         <Card title="Entretenimiento" @suscribe="suscribeTopic('Entretenimiento')" :isSuscribe="topicList.includes('Entretenimiento')" />
       </div>
-      <p class="mt-10">
+      <!-- <span class="block mt-10 w-full">
         {{ token }}
-      </p>
+      </span> -->
+      <span class="block w-full break-words whitespace-normal text-sm mt-4">
+        {{ token }}
+      </span>
       <!-- <button type="button" @click="getTokenFirebase">
         Obtener token
       </button> -->

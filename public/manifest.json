@@ -7,7 +7,7 @@
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "/icons/crear.png",
+      "src": "https://cdn-projects-build.joinnus.com/jweb-public-front/production/2500/static/favicons/apple-touch-icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
