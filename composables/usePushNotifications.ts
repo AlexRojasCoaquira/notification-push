@@ -16,6 +16,12 @@ export function useFirebaseMessaging() {
   const vapidKey = "BGKjMcyZmCL5C7PD3lVS5sjhDdjwHi5VNZFfBlIqmPXT2ylLswTaIHNlYhxq61rFnKIGmHw2VwdpaVGE0YReZzE";
   const getTokenNotification = async (): Promise<string> => {
     if (!$messaging) throw new Error("Firebase Messaging no está disponible.");
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+
+    if (isIOS && !isStandalone) {
+      throw new Error('Instala esta app en tu pantalla de inicio para recibir notificaciones en iPhone.')
+    }
     const permission = await Notification.requestPermission()
     if (permission !== 'granted') throw new Error('Permiso denegado')
     // const reg = await navigator.serviceWorker.getRegistration();
@@ -27,7 +33,7 @@ export function useFirebaseMessaging() {
       vapidKey,
       serviceWorkerRegistration: reg,
     });
-
+    if (!token) throw new Error("No se pudo obtener el token.");
     console.log('📲 Token FCM:', token);
     return token;
   };

@@ -28,6 +28,7 @@
 <script lang="ts" setup>
   import { useFirebaseMessaging } from '@/composables/usePushNotifications'
   const { getTokenNotification, suscribeToTopic } = useFirebaseMessaging()
+  const isPWA = ref(false)
   const token = ref('')
   const topicSelected = ref('')
   const topicList = ref<string[]>([])
