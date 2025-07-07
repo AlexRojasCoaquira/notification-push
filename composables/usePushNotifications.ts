@@ -27,7 +27,10 @@ export function useFirebaseMessaging() {
     }
     const permission = await Notification.requestPermission()
     console.log('permission', permission);
-    if (permission !== 'granted') throw new Error('Permiso denegado')
+    if (permission !== 'granted') {
+      alert('activa tus notificaciones')
+      throw new Error('Permiso denegado')
+    }
     // const reg = await navigator.serviceWorker.getRegistration();
     const reg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
 
