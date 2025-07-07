@@ -61,7 +61,7 @@ export function useFirebaseMessaging() {
         },
         token
       }
-      const url = `http://localhost:3001/send-topic`;
+      const url = `https://notification-api-production-1ded.up.railway.app/send-topic`;
       const res = await axios.post(url, data);
       console.log("✅ Notificación enviada:", res.data)
     } catch (err) {
