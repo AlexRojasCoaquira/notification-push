@@ -14,6 +14,9 @@ const firebaseConfig = {
 self.firebase.initializeApp(firebaseConfig);
 const messaging = self.firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
+  if (self.document && self.document.visibilityState === 'visible') {
+    return;
+  }
   const { title, body, image, eventId } = payload.data;
   self.registration.showNotification(title, {
     body,
