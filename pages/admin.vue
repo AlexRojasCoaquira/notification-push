@@ -130,7 +130,8 @@
     try {
       const payload = {
         ...form,
-        topic: topic.value
+        topic: topic.value,
+        token: token.value
       }
       const res = await sendPushNotification(payload);
       console.log('res', res);
