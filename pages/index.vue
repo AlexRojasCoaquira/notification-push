@@ -4,6 +4,12 @@
       <h1 class="text-2xl font-bold">
         SUSCRIPCIONES
       </h1>
+      <button class="p-2 bg-amber-600 rounded-2xl text-white" type="button" @click="getTokenFirebase">
+        Obtener token
+      </button>
+      <span class="block w-full break-words whitespace-normal text-sm mt-4">
+        {{ token }}
+      </span>
       <p v-if="msg" class="text-xl text-emerald-700 font-bold">{{msg}}-{{ topicSelected }}</p>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 my-5">
         <Card title="Noticias" @suscribe="suscribeTopic('Noticias')" :isSuscribe="topicList.includes('Noticias')" />
@@ -18,12 +24,7 @@
       <!-- <span class="block mt-10 w-full">
         {{ token }}
       </span> -->
-      <span class="block w-full break-words whitespace-normal text-sm mt-4">
-        {{ token }}
-      </span>
-      <!-- <button type="button" @click="getTokenFirebase">
-        Obtener token
-      </button> -->
+
     </div>
   </div>
 </template>
@@ -66,10 +67,10 @@
     // console.log(res);
     // res.value = res
   }
-  onMounted(() => {
+  onMounted(async () => {
     const topics = localStorage.getItem('topicList');
     if(topics) topicList.value = JSON.parse(topics)
-    getTokenFirebase()
+    // getTokenFirebase()
   })
 </script>
 

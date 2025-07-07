@@ -14,7 +14,10 @@ export function useFirebaseMessaging() {
   const nuxtApp = useNuxtApp();
   const $messaging = nuxtApp.$messaging as Messaging | null
   const vapidKey = "BGKjMcyZmCL5C7PD3lVS5sjhDdjwHi5VNZFfBlIqmPXT2ylLswTaIHNlYhxq61rFnKIGmHw2VwdpaVGE0YReZzE";
+  const alreadyAsked = ref(false);
   const getTokenNotification = async (): Promise<string> => {
+    if (alreadyAsked.value) return '';
+    alreadyAsked.value = true;
     if (!$messaging) throw new Error("Firebase Messaging no está disponible.");
     const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
@@ -23,6 +26,7 @@ export function useFirebaseMessaging() {
       throw new Error('Instala esta app en tu pantalla de inicio para recibir notificaciones en iPhone.')
     }
     const permission = await Notification.requestPermission()
+    console.log('permission', permission);
     if (permission !== 'granted') throw new Error('Permiso denegado')
     // const reg = await navigator.serviceWorker.getRegistration();
     const reg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
