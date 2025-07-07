@@ -6,8 +6,6 @@
   import { useFirebaseMessaging } from '../composables/usePushNotifications';
   const {listenForMessages} = useFirebaseMessaging()
   onMounted(() => { //llamarlo en la raíz de preferencia
-    if (document.visibilityState === 'visible') {
-        listenForMessages()
-    }
+    listenForMessages()
   })
 </script>

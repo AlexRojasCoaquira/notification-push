@@ -34,7 +34,6 @@ export function useFirebaseMessaging() {
 
   const sendPushNotification = async(payload: Notification) => {
     try {
-      console.log('payload', payload)
       const { topic, title, body, image, token } = payload;
       const data = {
         topic,
@@ -55,20 +54,22 @@ export function useFirebaseMessaging() {
 
   const listenForMessages = async () => {
     if (!$messaging) return;
-    onMessage($messaging, async(payload: MessagePayload) => {
-      console.log('📬 Mensaje recibido:', payload)
-      const title = payload.notification?.title || payload.data?.title || "Notificación";
-      const body = payload.notification?.body || payload.data?.body || "";
-      const image = payload.notification?.image || payload.data?.image || "";
-      const reg = await navigator.serviceWorker.getRegistration();
-      if (!reg) throw new Error('Service Worker no registrado')
-      console.log('MENSAJES EN PRIMER PLANO')
-      reg.showNotification(title, {
-        body,
-        icon: image,
-        data: payload.data,
+    if (document.visibilityState === 'visible') {
+      onMessage($messaging, async(payload: MessagePayload) => {
+        console.log('📬 Mensaje recibido:', payload)
+        const title = payload.data?.title || "Notificación";
+        const body = payload.data?.body || "";
+        const image = payload.data?.image || "";
+        const reg = await navigator.serviceWorker.getRegistration();
+        if (!reg) throw new Error('Service Worker no registrado')
+        console.log('MENSAJES EN PRIMER PLANO')
+        reg.showNotification(title, {
+          body,
+          icon: image,
+          data: payload.data,
+        });
       });
-    });
+    }
   }
   const suscribeToTopic = async (topic: string, token: string, unsuscribe = '1') => {
     try {
