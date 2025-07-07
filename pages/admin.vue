@@ -7,7 +7,38 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
         <div class="">
           <form @submit.prevent="sendNotificacion" class="w-full">
-            <div class="block">
+            <div class="flex gap-4">
+              <p class="text-gray-800 font-semibold">Tipo de envío:</p>
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input
+                  v-model="typeSend"
+                  type="radio"
+                  name="tipoEnvio"
+                  value="topic"
+                  class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                />
+                <span class="text-sm text-gray-700">Por tópicos</span>
+              </label>
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input
+                  v-model="typeSend"
+                  type="radio"
+                  name="tipoEnvio"
+                  value="token"
+                  class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                />
+                <span class="text-sm text-gray-700">Por token(directo)</span>
+              </label>
+            </div>
+            <div class="block" v-if="typeSend === 'token'">
+              <label class="block mb-2 text-sm font-medium text-gray-700">Token</label>
+              <input
+                v-model="token"
+                type="text"
+                class="w-full block px-4 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+            <div class="block" v-if="typeSend === 'topic'">
               <label class="block mb-2 text-sm font-medium text-gray-700">Tópico</label>
               <select v-model="topic" class="w-full block px-4 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 <option value="Noticias">Noticias</option>
@@ -55,7 +86,8 @@
             <button type="button" class="ml-2 w-40 rounded-2xl text-white text-xl bg-blue-600 px-3 py-2 mt-5" @click="cleanForm">Limpiar</button>
           </form>
         </div>
-        <div class="w-full border border-gray-900">
+        <div class="w-full h-full border border-gray-900">
+          Analítica - Firebase analitics
         </div>
       </div>
     </div>
@@ -64,8 +96,13 @@
 
 <script lang="ts" setup>
   import { useFirebaseMessaging } from '@/composables/usePushNotifications'
-  const { sendPushNotification } = useFirebaseMessaging();
+  const {
+    sendPushNotification,
+    listenForMessages
+   } = useFirebaseMessaging();
   const topic = ref('Noticias')
+  const token = ref('')
+  const typeSend = ref('topic')
   const defaultForm = {
     title: 'IMAGINE DRAGON',
     image: 'https://d189tumsugqfi4.cloudfront.net/_909x569_crop_center-center_80_none/APPROVED_MOJO_ImagineDragons_1920x1080px.jpg',
@@ -101,6 +138,9 @@
       console.log('res', error);
     }
   }
+  onMounted(() => { //llamarlo en la raíz de preferencia
+    listenForMessages()
+  })
 </script>
 
 <style>
