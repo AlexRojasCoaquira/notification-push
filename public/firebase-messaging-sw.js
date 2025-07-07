@@ -35,10 +35,26 @@ self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
   if (action === 'view') {
-    event.waitUntil(clients.openWindow(`/eventos/${data.eventId || '123'}`))
+    event.waitUntil(clients.openWindow(`/activity/${data.eventId || '123'}`))
   } else if (action === 'dismiss') {
     event.waitUntil(clients.openWindow(`/no-interesa/${data.eventId || '123'}`))
   } else {
     event.waitUntil(clients.openWindow('/'));
   }
+});
+self.addEventListener('push', (event) => {
+  const data = event.data?.json() || {};
+  const actions = data.actions ? JSON.parse(data.actions) : [];
+
+  const options = {
+    body: data.body || '',
+    icon: '/icon.png',
+    image: data.image || '',
+    actions, // 🔥 Aquí van los botones
+    data // para acceder después al hacer click
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'Notificación', options)
+  );
 });

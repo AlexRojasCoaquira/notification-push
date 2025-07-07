@@ -54,10 +54,14 @@ export function useFirebaseMessaging() {
           title,
           body,
           image,
+          actions: JSON.stringify([
+            { action: 'view', title: 'Ver' },
+            { action: 'dismiss', title: 'Cancelar' }
+          ])
         },
         token
       }
-      const url = `https://notification-api-production-1ded.up.railway.app/send-topic`;
+      const url = `http://localhost:3001/send-topic`;
       const res = await axios.post(url, data);
       console.log("✅ Notificación enviada:", res.data)
     } catch (err) {
