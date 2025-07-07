@@ -72,20 +72,20 @@ export function useFirebaseMessaging() {
   const listenForMessages = async () => {
     if (!$messaging) return;
     if (document.visibilityState === 'visible') {
-      // onMessage($messaging, async(payload: MessagePayload) => {
-      //   console.log('📬 Mensaje recibido:', payload)
-      //   const title = payload.data?.title || "Notificación";
-      //   const body = payload.data?.body || "";
-      //   const image = payload.data?.image || "";
-      //   const reg = await navigator.serviceWorker.getRegistration();
-      //   if (!reg) throw new Error('Service Worker no registrado')
-      //   console.log('MENSAJES EN PRIMER PLANO')
-      //   reg.showNotification(title, {
-      //     body,
-      //     icon: image,
-      //     data: payload.data,
-      //   });
-      // });
+      onMessage($messaging, async(payload: MessagePayload) => {
+        console.log('📬 Mensaje recibido:', payload)
+        const title = payload.data?.title || "Notificación";
+        const body = payload.data?.body || "";
+        const image = payload.data?.image || "";
+        const reg = await navigator.serviceWorker.getRegistration();
+        if (!reg) throw new Error('Service Worker no registrado')
+        console.log('MENSAJES EN PRIMER PLANO')
+        reg.showNotification(title, {
+          body,
+          icon: image,
+          data: payload.data,
+        });
+      });
     }
   }
   const suscribeToTopic = async (topic: string, token: string, unsuscribe = '1') => {

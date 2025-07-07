@@ -42,19 +42,19 @@ self.addEventListener("notificationclick", (event) => {
     event.waitUntil(clients.openWindow('/'));
   }
 });
-self.addEventListener('push', (event) => {
-  const data = event.data?.json() || {};
-  const actions = data.actions ? JSON.parse(data.actions) : [];
+// self.addEventListener('push', (event) => {
+//   const data = event.data?.json() || {};
+//   const actions = data.actions ? JSON.parse(data.actions) : [];
 
-  const options = {
-    body: data.body || '',
-    icon: '/icon.png',
-    image: data.image || '',
-    actions, // 🔥 Aquí van los botones
-    data // para acceder después al hacer click
-  };
+//   const options = {
+//     body: data.body || '',
+//     icon: '/icon.png',
+//     image: data.image || '',
+//     actions, // 🔥 Aquí van los botones
+//     data // para acceder después al hacer click
+//   };
 
-  event.waitUntil(
-    self.registration.showNotification(data.title || 'Notificación', options)
-  );
-});
+//   event.waitUntil(
+//     self.registration.showNotification(data.title || 'Notificación', options)
+//   );
+// });
